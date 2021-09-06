@@ -27,12 +27,12 @@ body {
   padding: 1.5rem;
 }
 
-.display .operation {
+.display #secondary_display {
   font-size: 1.5rem;
   color: #e6e5e5;
 }
 
-.display .total {
+.display #primary_display {
   font-size: 3rem;
   color: white;
 }
