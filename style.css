@@ -64,3 +64,9 @@ body {
 .buttons button:active {
   box-shadow: none;
 }
+
+.buttons button.inative {
+  box-shadow: none;
+  color: #888888;
+  cursor: none;
+}
