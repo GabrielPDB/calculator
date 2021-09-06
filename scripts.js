@@ -1,3 +1,5 @@
+let expression = ''
+let primaryDisplayValue = '0'
 const buttons = document.querySelectorAll('button')
 const secondaryDisplay = document.querySelector('#secondary_display')
 const primaryDisplay = document.querySelector('#primary_display')
@@ -10,63 +12,139 @@ buttons.forEach(button => {
 
 const pressedButton = {
   ac_button: () => {
-    console.log('AC')
-  },
-  plus_sub_button: () => {
-    console.log('+ / -')
-  },
-  percent_button: () => {
-    console.log('%')
-  },
-  division_button: () => {
-    console.log('/')
-  },
-  multiplication_button: () => {
-    console.log('x')
-  },
-  sub_button: () => {
-    console.log('-')
-  },
-  plus_button: () => {
-    console.log('+')
+    clearPrimaryDisplayValue()
+    clearPrimaryDisplay()
+    clearSecondaryDisplay()
   },
   clear_button: () => {
-    console.log('Clear')
+    clearPrimaryDisplay()
+    clearPrimaryDisplayValue()
   },
-  dot_button: () => {
-    console.log('.')
+  plus_sub_button: () => {
+    invertSignalOfPrimaryDisplayValue()
+  },
+  percent_button: () => {
+    // Aqui complica
+  },
+  plus_button: () => {
+    insertOperation('+')
+  },
+  sub_button: () => {
+    insertOperation('-')
+  },
+  multiplication_button: () => {
+    insertOperation('*')
+  },
+  division_button: () => {
+    insertOperation('/')
   },
   equal_button: () => {
-    console.log('=')
+    insertOperation('')
+    showTotalInPrimaryDisplay(calculateExpression())
+    expression = ''
+  },
+  dot_button: () => {
+    if (
+      !Array.from(primaryDisplayValue).find(e => {
+        if (e == '.') return true
+      })
+    ) {
+      fillPrimaryDisplayValue('.')
+    }
   },
   zero_button: () => {
-    console.log('0')
+    fillPrimaryDisplayValue('0')
   },
   one_button: () => {
-    console.log('1')
+    fillPrimaryDisplayValue('1')
   },
   two_button: () => {
-    console.log('2')
+    fillPrimaryDisplayValue('2')
   },
   three_button: () => {
-    console.log('3')
+    fillPrimaryDisplayValue('3')
   },
   four_button: () => {
-    console.log('4')
+    fillPrimaryDisplayValue('4')
   },
   five_button: () => {
-    console.log('5')
+    fillPrimaryDisplayValue('5')
   },
   six_button: () => {
-    console.log('6')
+    fillPrimaryDisplayValue('6')
   },
   seven_button: () => {
-    console.log('7')
+    fillPrimaryDisplayValue('7')
   },
   eight_button: () => {
-    console.log('8')
+    fillPrimaryDisplayValue('8')
   },
   nine_button: () => {
-    console.log('9')
+    fillPrimaryDisplayValue('9')
   }
+}
+
+function calculateExpression() {
+  return eval(expression)
+}
+
+function fillPrimaryDisplayValue(value) {
+  if (primaryDisplayValue.length <= 8) {
+    if (primaryDisplayValue != 0 || primaryDisplayValue != '0') {
+      primaryDisplayValue += value
+    } else {
+      primaryDisplayValue = value
+    }
+  }
+
+  showValueInPrimaryDisplay()
+  /* if (primaryDisplay.innerHTML.length < 8) {
+    if (primaryDisplay.innerHTML != 0 || primaryDisplay.innerHTML != '0') {
+      primaryDisplay.innerHTML += value
+    } else {
+      primaryDisplay.innerHTML = value
+    }
+  } */
+}
+
+function showValueInPrimaryDisplay() {
+  primaryDisplay.innerHTML = primaryDisplayValue
+}
+
+function showTotalInPrimaryDisplay(total) {
+  let newTotal = String(total).split('.')
+  if (newTotal[1] > 8) {
+    primaryDisplay.innerHTML = total.toFixed(8)
+  } else {
+    primaryDisplay.innerHTML = total
+  }
+}
+
+function clearPrimaryDisplay() {
+  primaryDisplay.innerHTML = '0'
+}
+
+function clearPrimaryDisplayValue() {
+  primaryDisplayValue = ''
+}
+
+function invertSignalOfPrimaryDisplayValue() {
+  primaryDisplayValue = primaryDisplay.innerHTML * -1
+  showValueInPrimaryDisplay()
+  return
+}
+
+function fillSecondaryDisplay() {
+  secondaryDisplay.innerHTML = expression
+}
+
+function clearSecondaryDisplay() {
+  expression = ''
+  secondaryDisplay.innerHTML = ''
+}
+
+function insertOperation(operation) {
+  expression += primaryDisplay.innerHTML + ' ' + operation + ' '
+  fillSecondaryDisplay()
+  clearPrimaryDisplayValue()
 }
