@@ -24,7 +24,7 @@ const pressedButton = {
     invertSignalOfPrimaryDisplayValue()
   },
   percent_button: () => {
-    // Aqui complica
+    fillPrimaryDisplayValue('/100')
   },
   plus_button: () => {
     insertOperation('+')
@@ -131,11 +131,11 @@ function clearPrimaryDisplayValue() {
 function invertSignalOfPrimaryDisplayValue() {
   primaryDisplayValue = primaryDisplay.innerHTML * -1
   showValueInPrimaryDisplay()
-  return
 }
 
-function fillSecondaryDisplay() {
+function fillSecondaryDisplay(value) {
   secondaryDisplay.innerHTML = expression
+  secondaryDisplay.innerHTML = formatDisplay(secondaryDisplay.innerHTML)
 }
 
 function clearSecondaryDisplay() {
@@ -145,6 +145,18 @@ function clearSecondaryDisplay() {
 
 function insertOperation(operation) {
   expression += primaryDisplay.innerHTML + ' ' + operation + ' '
-  fillSecondaryDisplay()
+  fillSecondaryDisplay(operation)
   clearPrimaryDisplayValue()
+}
+
+function formatDisplay(display) {
+  console.log(display)
+  display = display.replace('/100', '%')
+  display = display.replace('/', '&#247;')
+  display = display.replace('*', '&#215;')
+  display = display.replace('-', '&#8722;')
+  display = display.replace('+', '&#43;')
+  display = display.replace('.', '&#8729;')
+  console.log(display)
+  return display
 }
